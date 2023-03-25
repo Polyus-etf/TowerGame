@@ -9,6 +9,7 @@ public class GameController : MonoBehaviour
     public float cubeChangePlaceSpeed = 0.5f;
     public Transform cubeToPlace;
     public GameObject cubeToCreate, allCubes;
+    private Rigidbody allCudesRb;
 
     private List<Vector3> allCubesPositions = new List<Vector3>
     {
@@ -27,7 +28,31 @@ public class GameController : MonoBehaviour
 
     private void Start()
     {
+        allCudesRb = allCubes.GetComponent<Rigidbody>();
         StartCoroutine(ShowCubePlace());
+    }
+
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0) || Input.touchCount > 0)
+        {
+#if !UNITY_EDITOR
+            if (Input.GetTouch(0).phase != TouchPhase.Began)
+                return;
+#endif
+            GameObject newCube =  Instantiate(
+                cubeToCreate,
+                cubeToPlace.position,
+                Quaternion.identity) as GameObject;
+
+            newCube.transform.SetParent(allCubes.transform);
+            nowCube.setVector(cubeToPlace.position);
+            allCubesPositions.Add(nowCube.getVector());
+            allCudesRb.isKinematic = true;
+            allCudesRb.isKinematic = false;
+
+            SpawnPositions();
+        }
     }
 
     IEnumerator ShowCubePlace()
