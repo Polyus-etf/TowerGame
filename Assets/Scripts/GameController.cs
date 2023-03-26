@@ -10,6 +10,8 @@ public class GameController : MonoBehaviour
     public Transform cubeToPlace;
     public GameObject cubeToCreate, allCubes;
     private Rigidbody allCudesRb;
+    private bool IsLose;
+
 
     private List<Vector3> allCubesPositions = new List<Vector3>
     {
@@ -25,16 +27,17 @@ public class GameController : MonoBehaviour
         new Vector3(1, 0, -1),
     };
 
+    private Coroutine showCubePlace;
 
     private void Start()
     {
         allCudesRb = allCubes.GetComponent<Rigidbody>();
-        StartCoroutine(ShowCubePlace());
+        showCubePlace = StartCoroutine(ShowCubePlace());
     }
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0) || Input.touchCount > 0)
+        if ((Input.GetMouseButtonDown(0) || Input.touchCount > 0) && cubeToPlace != null)
         {
 #if !UNITY_EDITOR
             if (Input.GetTouch(0).phase != TouchPhase.Began)
@@ -52,6 +55,12 @@ public class GameController : MonoBehaviour
             allCudesRb.isKinematic = false;
 
             SpawnPositions();
+        }
+        if  (!IsLose && allCudesRb.velocity.magnitude > 0.1f)
+        {
+            Destroy(cubeToPlace.gameObject);
+            IsLose = true;
+            StopCoroutine(showCubePlace);
         }
     }
 
