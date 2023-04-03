@@ -9,7 +9,7 @@ public class GameController : MonoBehaviour
     private CubePos nowCube = new CubePos(0, 1, 0);
     public float cubeChangePlaceSpeed = 0.5f;
     public Transform cubeToPlace;
-    private float camMoveToYPosition;
+    private float camMoveToYPosition, camMoveSpeed = 2f;
 
     public GameObject cubeToCreate, allCubes;
     public GameObject[] canvasStartPage;
@@ -31,10 +31,14 @@ public class GameController : MonoBehaviour
         new Vector3(1, 0, -1),
     };
 
+    private Transform mainCam;
     private Coroutine showCubePlace;
 
     private void Start()
     {
+        mainCam = Camera.main.transform;
+        camMoveToYPosition = 5.9f + nowCube.y - 1f;
+
         allCudesRb = allCubes.GetComponent<Rigidbody>();
         showCubePlace = StartCoroutine(ShowCubePlace());
     }
@@ -74,6 +78,10 @@ public class GameController : MonoBehaviour
             IsLose = true;
             StopCoroutine(showCubePlace);
         }
+
+        mainCam.localPosition = Vector3.MoveTowards(mainCam.localPosition,
+            new Vector3(mainCam.localPosition.x, camMoveToYPosition, mainCam.localPosition.z),
+            camMoveSpeed * Time.deltaTime);
     }
 
     IEnumerator ShowCubePlace()
@@ -137,9 +145,7 @@ public class GameController : MonoBehaviour
                 maxZ = Convert.ToInt32(pos.z);
         }
 
-        Transform mainCam = Camera.main.transform;
         camMoveToYPosition = 5.9f + nowCube.y - 1f;
-        mainCam.localPosition = new Vector3(mainCam.localPosition.x, camMoveToYPosition, mainCam.localPosition.z);
     }
 }
 
