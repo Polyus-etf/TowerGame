@@ -31,6 +31,7 @@ public class GameController : MonoBehaviour
         new Vector3(1, 0, -1),
     };
 
+    private int prevCountMaxHorizontal;
     private Transform mainCam;
     private Coroutine showCubePlace;
 
@@ -115,7 +116,13 @@ public class GameController : MonoBehaviour
             && nowCube.z - 1 != cubeToPlace.position.z)
             positions.Add(new Vector3(nowCube.x, nowCube.y, nowCube.z - 1));
 
-        cubeToPlace.position = positions[UnityEngine.Random.Range(0, positions.Count)];
+
+        if (positions.Count > 1)
+            cubeToPlace.position = positions[UnityEngine.Random.Range(0, positions.Count)];
+        else if (positions.Count == 0)
+            IsLose = true;
+        else
+            cubeToPlace.position = positions[0];
 
     }
 
@@ -133,7 +140,7 @@ public class GameController : MonoBehaviour
 
     private void moveCameraChangeBg()
     {
-        int maxX = 0, maxY = 0, maxZ = 0;
+        int maxX = 0, maxY = 0, maxZ = 0, maxHor = 0;
 
         foreach(Vector3 pos in allCubesPositions)
         {
@@ -146,6 +153,14 @@ public class GameController : MonoBehaviour
         }
 
         camMoveToYPosition = 5.9f + nowCube.y - 1f;
+
+        maxHor = maxX > maxZ ? maxX : maxZ;
+
+        if (maxHor % 3 == 0 && prevCountMaxHorizontal != maxHor)
+        {
+            mainCam.localPosition += new Vector3(0, 0, -2.5f);
+            prevCountMaxHorizontal = maxHor;
+        }
     }
 }
 
