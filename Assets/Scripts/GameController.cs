@@ -14,6 +14,10 @@ public class GameController : MonoBehaviour
     public GameObject cubeToCreate, allCubes;
     public GameObject[] canvasStartPage;
     private Rigidbody allCudesRb;
+
+    public Color[] bgColors;
+    private Color toCameraColor;
+
     private bool IsLose, firstCube;
 
 
@@ -37,6 +41,7 @@ public class GameController : MonoBehaviour
 
     private void Start()
     {
+        toCameraColor = Camera.main.backgroundColor; 
         mainCam = Camera.main.transform;
         camMoveToYPosition = 5.9f + nowCube.y - 1f;
 
@@ -83,6 +88,10 @@ public class GameController : MonoBehaviour
         mainCam.localPosition = Vector3.MoveTowards(mainCam.localPosition,
             new Vector3(mainCam.localPosition.x, camMoveToYPosition, mainCam.localPosition.z),
             camMoveSpeed * Time.deltaTime);
+        if (Camera.main.backgroundColor != toCameraColor)
+        {
+            Camera.main.backgroundColor = Color.Lerp(Camera.main.backgroundColor, toCameraColor, Time.deltaTime / 1.5f);
+        }
     }
 
     IEnumerator ShowCubePlace()
@@ -161,6 +170,13 @@ public class GameController : MonoBehaviour
             mainCam.localPosition += new Vector3(0, 0, -2.5f);
             prevCountMaxHorizontal = maxHor;
         }
+
+        if (maxY >= 7)
+            toCameraColor = bgColors[2];
+        else if (maxY >= 5)
+            toCameraColor = bgColors[1];
+        else if (maxY >= 2)
+            toCameraColor = bgColors[0];
     }
 }
 
