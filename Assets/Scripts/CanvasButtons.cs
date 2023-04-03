@@ -13,3 +13,4 @@ public class CanvasButtons : MonoBehaviour
         Application.OpenURL("https://instagram.com/polyakov.serge/");
     }
 }
+  

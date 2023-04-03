@@ -9,6 +9,8 @@ public class GameController : MonoBehaviour
     private CubePos nowCube = new CubePos(0, 1, 0);
     public float cubeChangePlaceSpeed = 0.5f;
     public Transform cubeToPlace;
+    private float camMoveToYPosition;
+
     public GameObject cubeToCreate, allCubes;
     public GameObject[] canvasStartPage;
     private Rigidbody allCudesRb;
@@ -39,7 +41,7 @@ public class GameController : MonoBehaviour
 
     private void Update()
     {
-        if ((Input.GetMouseButtonDown(0) || Input.touchCount > 0) && cubeToPlace != null && !EventSystem.current.IsPointerOverGameObject())
+        if ((Input.GetMouseButtonDown(0) || Input.touchCount > 0) && cubeToPlace != null && allCubes != null && !EventSystem.current.IsPointerOverGameObject())
         {
 #if !UNITY_EDITOR
             if (Input.GetTouch(0).phase != TouchPhase.Began)
@@ -52,7 +54,7 @@ public class GameController : MonoBehaviour
                 foreach (GameObject obj in canvasStartPage)
                     Destroy(obj);
             }
-            GameObject newCube =  Instantiate(
+            GameObject newCube = Instantiate(
                 cubeToCreate,
                 cubeToPlace.position,
                 Quaternion.identity) as GameObject;
@@ -64,8 +66,9 @@ public class GameController : MonoBehaviour
             allCudesRb.isKinematic = false;
 
             SpawnPositions();
+            moveCameraChangeBg();
         }
-        if  (!IsLose && allCudesRb.velocity.magnitude > 0.1f)
+        if (!IsLose && allCudesRb.velocity.magnitude > 0.1f)
         {
             Destroy(cubeToPlace.gameObject);
             IsLose = true;
@@ -112,12 +115,31 @@ public class GameController : MonoBehaviour
         if (targetPos.y == 0)
             return false;
 
-        foreach(Vector3 pos in allCubesPositions)
+        foreach (Vector3 pos in allCubesPositions)
         {
             if (pos.x == targetPos.x && pos.y == targetPos.y && pos.z == targetPos.z)
                 return false;
         }
         return true;
+    }
+
+    private void moveCameraChangeBg()
+    {
+        int maxX = 0, maxY = 0, maxZ = 0;
+
+        foreach(Vector3 pos in allCubesPositions)
+        {
+            if (Mathf.Abs(Convert.ToInt32(pos.x)) > maxX)
+                maxX = Convert.ToInt32(pos.x);
+            if (Convert.ToInt32(pos.y) > maxY)
+                maxY = Convert.ToInt32(pos.y);
+            if (Mathf.Abs(Convert.ToInt32(pos.z)) > maxZ)
+                maxZ = Convert.ToInt32(pos.z);
+        }
+
+        Transform mainCam = Camera.main.transform;
+        camMoveToYPosition = 5.9f + nowCube.y - 1f;
+        mainCam.localPosition = new Vector3(mainCam.localPosition.x, camMoveToYPosition, mainCam.localPosition.z);
     }
 }
 
