@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,6 +11,8 @@ public class GameController : MonoBehaviour
     public float cubeChangePlaceSpeed = 0.5f;
     public Transform cubeToPlace;
     private float camMoveToYPosition, camMoveSpeed = 2f;
+
+    public Text scoreTxt;
 
     public GameObject cubeToCreate, allCubes, vfx;
     public GameObject[] canvasStartPage;
@@ -41,6 +44,7 @@ public class GameController : MonoBehaviour
 
     private void Start()
     {
+        scoreTxt.text = "<size=40><color=#E06156>best: </color></size>" + PlayerPrefs.GetInt("score") + "\n<size=22>now: </size>0";
         toCameraColor = Camera.main.backgroundColor; 
         mainCam = Camera.main.transform;
         camMoveToYPosition = 5.9f + nowCube.y - 1f;
@@ -76,7 +80,9 @@ public class GameController : MonoBehaviour
             if (PlayerPrefs.GetString("music") != "No")
                 GetComponent<AudioSource>().Play();
 
-            Instantiate(vfx, newCube.transform.position, Quaternion.identity);
+            GameObject newVfx = Instantiate(vfx, newCube.transform.position, Quaternion.identity) as GameObject;
+            Destroy(newVfx, 1.5f);
+
 
             allCudesRb.isKinematic = true;
             allCudesRb.isKinematic = false;
@@ -166,6 +172,12 @@ public class GameController : MonoBehaviour
             if (Mathf.Abs(Convert.ToInt32(pos.z)) > maxZ)
                 maxZ = Convert.ToInt32(pos.z);
         }
+
+        maxY--;
+        if (PlayerPrefs.GetInt("score") < maxY)
+            PlayerPrefs.SetInt("score", maxY);
+
+        scoreTxt.text = "<size=40><color=#E06156>best: </color></size>" + PlayerPrefs.GetInt("score") + "\n<size=22>now: </size> " + maxY;
 
         camMoveToYPosition = 5.9f + nowCube.y - 1f;
 

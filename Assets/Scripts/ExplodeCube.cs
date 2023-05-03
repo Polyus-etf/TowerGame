@@ -17,7 +17,8 @@ public class ExplodeCube : MonoBehaviour {
             Camera.main.transform.position -= new Vector3(3f, 0 , 0);
             Camera.main.gameObject.AddComponent<CameraShake>();
 
-            Instantiate(explosion, new Vector3(collision.contacts[0].point.x, collision.contacts[0].point.y, collision.contacts[0].point.z), Quaternion.identity);
+            GameObject newVfx = Instantiate(explosion, new Vector3(collision.contacts[0].point.x, collision.contacts[0].point.y, collision.contacts[0].point.z), Quaternion.identity) as GameObject;
+            Destroy(newVfx, 2.5f);
 
             if (PlayerPrefs.GetString("music") != "No")
                 GetComponent<AudioSource>().Play();
