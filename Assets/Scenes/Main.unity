@@ -422,6 +422,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   restartButton: {fileID: 1229527268}
+  explosion: {fileID: 110790, guid: 0f75f6db4a318f54382e0c98b2226db8, type: 3}
 --- !u!1 &934408895
 GameObject:
   m_ObjectHideFlags: 0
@@ -575,6 +576,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b4610f22a1434655ac55f226a5c9eef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  musicOn: {fileID: 0}
+  musicOff: {fileID: 0}
 --- !u!114 &941940533
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1068,6 +1071,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b4610f22a1434655ac55f226a5c9eef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  musicOn: {fileID: 0}
+  musicOff: {fileID: 0}
 --- !u!114 &1229527271
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1385,6 +1390,7 @@ MonoBehaviour:
   cubeToCreate: {fileID: 3230915367263849771, guid: 6f7aa2e2d6bef446c989276781f6cc16,
     type: 3}
   allCubes: {fileID: 595001759}
+  vfx: {fileID: 180128, guid: 6586ff0f14125534cae2f5d8f04b7871, type: 3}
   canvasStartPage:
   - {fileID: 2147083530}
   - {fileID: 941940530}
@@ -1508,6 +1514,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b4610f22a1434655ac55f226a5c9eef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  musicOn: {fileID: 21300000, guid: 04cdbb33465694fa79b4b8e92a9fb4dc, type: 3}
+  musicOff: {fileID: 21300000, guid: e8c94d36e726b413c84faba3ae43a9da, type: 3}
 --- !u!114 &2066673521
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1551,7 +1559,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2066673522}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2066673520}
+        m_TargetAssemblyTypeName: CanvasButtons, Assembly-CSharp
+        m_MethodName: MusicWork
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2066673522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1648,6 +1668,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b4610f22a1434655ac55f226a5c9eef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  musicOn: {fileID: 0}
+  musicOff: {fileID: 0}
 --- !u!114 &2147083533
 MonoBehaviour:
   m_ObjectHideFlags: 0
