@@ -1775,8 +1775,17 @@ MonoBehaviour:
   cubeChangePlaceSpeed: 0.5
   cubeToPlace: {fileID: 1275437839}
   scoreTxt: {fileID: 1207407443}
-  cubeToCreate: {fileID: 3230915367263849771, guid: 6f7aa2e2d6bef446c989276781f6cc16,
-    type: 3}
+  cubesToCreate:
+  - {fileID: 3230915367263849771, guid: 6f7aa2e2d6bef446c989276781f6cc16, type: 3}
+  - {fileID: 1067746222889774885, guid: 49cca9e9965e341c2802a0737e34687a, type: 3}
+  - {fileID: 7029411486462301324, guid: 65cb55d5d3e584d8085a860008370564, type: 3}
+  - {fileID: 2074891784519602694, guid: bf8540d5b6762484e9ef427a78f88ebf, type: 3}
+  - {fileID: 3910465805549992370, guid: e3f2b10a3c05149469da438a6199e66c, type: 3}
+  - {fileID: 1731940815294152649, guid: 1dd14bea25b7a4bc1b1ab16a18a9af1f, type: 3}
+  - {fileID: 2294991369704770942, guid: 646b0a01bb7ac4115b50cae435f3e4af, type: 3}
+  - {fileID: 6733850032985893730, guid: 437899559edda4668aee5ed19c469ca4, type: 3}
+  - {fileID: 8858148995289165588, guid: ddf929d8c53f34fbf864fff960657f4f, type: 3}
+  - {fileID: 7838202795837429047, guid: 20195ae8d57dd4f209970f294a6d3930, type: 3}
   allCubes: {fileID: 595001759}
   vfx: {fileID: 180128, guid: 6586ff0f14125534cae2f5d8f04b7871, type: 3}
   canvasStartPage:

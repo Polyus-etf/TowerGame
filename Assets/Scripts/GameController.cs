@@ -14,7 +14,9 @@ public class GameController : MonoBehaviour
 
     public Text scoreTxt;
 
-    public GameObject cubeToCreate, allCubes, vfx;
+    public GameObject[] cubesToCreate;
+
+    public GameObject allCubes, vfx;
     public GameObject[] canvasStartPage;
     private Rigidbody allCudesRb;
 
@@ -42,8 +44,32 @@ public class GameController : MonoBehaviour
     private Transform mainCam;
     private Coroutine showCubePlace;
 
+    private List<GameObject> posibleCubesToCreate = new List<GameObject>();
+
     private void Start()
     {
+        if (PlayerPrefs.GetInt("score") >= 0)
+            posibleCubesToCreate.Add(cubesToCreate[0]);
+        if (PlayerPrefs.GetInt("score") >= 5)
+            posibleCubesToCreate.Add(cubesToCreate[1]);
+        if (PlayerPrefs.GetInt("score") >= 10)
+            posibleCubesToCreate.Add(cubesToCreate[2]);
+        if (PlayerPrefs.GetInt("score") >= 15)
+            posibleCubesToCreate.Add(cubesToCreate[3]);
+        if (PlayerPrefs.GetInt("score") >= 20)
+            posibleCubesToCreate.Add(cubesToCreate[4]);
+        if (PlayerPrefs.GetInt("score") >= 25)
+            posibleCubesToCreate.Add(cubesToCreate[5]);
+        if (PlayerPrefs.GetInt("score") >= 30)
+            posibleCubesToCreate.Add(cubesToCreate[6]);
+        if (PlayerPrefs.GetInt("score") >= 35)
+            posibleCubesToCreate.Add(cubesToCreate[7]);
+        if (PlayerPrefs.GetInt("score") >= 40)
+            posibleCubesToCreate.Add(cubesToCreate[8]);
+        if (PlayerPrefs.GetInt("score") >= 50)
+            posibleCubesToCreate.Add(cubesToCreate[9]);
+
+
         scoreTxt.text = "<size=40><color=#E06156>best: </color></size>" + PlayerPrefs.GetInt("score") + "\n<size=22>now: </size>0";
         toCameraColor = Camera.main.backgroundColor; 
         mainCam = Camera.main.transform;
@@ -68,8 +94,15 @@ public class GameController : MonoBehaviour
                 foreach (GameObject obj in canvasStartPage)
                     Destroy(obj);
             }
+
+            GameObject createCube = null;
+            if (posibleCubesToCreate.Count == 1)
+                createCube = posibleCubesToCreate[0];
+            else
+                createCube = posibleCubesToCreate[UnityEngine.Random.Range(0, posibleCubesToCreate.Count)];
+
             GameObject newCube = Instantiate(
-                cubeToCreate,
+                createCube,
                 cubeToPlace.position,
                 Quaternion.identity) as GameObject;
 
