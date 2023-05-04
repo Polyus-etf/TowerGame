@@ -2,30 +2,59 @@ using UnityEngine;
 using UnityEngine.Advertisements;
 using System.Collections;
 
-public class Ads : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowListener
+public class Ads : MonoBehaviour, IUnityAdsInitializationListener, IUnityAdsLoadListener, IUnityAdsShowListener
 {
-    
+    private Coroutine showAd;
     private string gameId = "5268204", type = "Rewarded_Android";
-    private bool testMode = true;
+    private bool testMode = true, needToStop;
+
+    private static int countLoses;
 
 
-    void Awoke()
+    void Awake()
     {
-        Start();
+        InitializeAds();
     }
 
-
+    public void InitializeAds()
+    {
+        if (!Advertisement.isInitialized && Advertisement.isSupported)
+        {
+            Advertisement.Initialize(gameId, testMode, this);
+        }
+    }
 
     private void Start()
     {
-        Advertisement.Initialize(gameId, testMode);
+        countLoses++;
+        if (countLoses % 3 == 0)
+            showAd = StartCoroutine(ShowAd());
     }
 
-
-
-    public void ShowAd()
+    private void Update()
     {
-        Debug.Log("Showing Ad: " + gameId);
+        if(needToStop)
+        {
+            needToStop = false;
+            StopCoroutine(showAd);
+        }
+    }
+
+    IEnumerator ShowAd()
+    {
+        while (true)
+        {
+            Debug.Log("Showing Ad: " + gameId);
+            Advertisement.Show(type, this);
+            needToStop = true;
+            yield return new WaitForSeconds(1f);
+        }
+    }
+
+    public void LoadAd()
+    {
+        Debug.Log("Loading Ad: " + gameId);
+        Advertisement.Load(gameId, this);
     }
 
     public void OnUnityAdsAdLoaded(string adUnitId)
@@ -45,7 +74,7 @@ public class Ads : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowListener
 
     public void OnUnityAdsShowStart(string placementId)
     {
-        throw new System.NotImplementedException();
+        
     }
 
     public void OnUnityAdsShowClick(string placementId)
@@ -56,5 +85,17 @@ public class Ads : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowListener
     public void OnUnityAdsShowComplete(string placementId, UnityAdsShowCompletionState showCompletionState)
     {
         throw new System.NotImplementedException();
+    }
+
+    public void OnInitializationComplete()
+    {
+        // throw new System.NotImplementedException();
+        Debug.Log("Unity Ads initialization complete.");
+    }
+
+    public void OnInitializationFailed(UnityAdsInitializationError error, string message)
+    {
+        // throw new System.NotImplementedException();
+        Debug.Log($"Unity Ads Initialization Failed: {error.ToString()} - {message}");
     }
 }
